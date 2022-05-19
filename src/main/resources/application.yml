@@ -1,0 +1,15 @@
+### CONFIGURATION SERVER ###
+server:
+  port: 8080
+
+### CONFIGURATION DATABASE ###
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:toor@localhost:27017/admin
+      auto-index-creation: true
+
+### CONFIGURATION LOG ###
+logging:
+  level:
+    root: DEBUG
