@@ -11,6 +11,5 @@ import java.io.Serializable;
 public class PixKey implements Serializable {
 
     private TypeKey type;
-
     private String value;
 }
