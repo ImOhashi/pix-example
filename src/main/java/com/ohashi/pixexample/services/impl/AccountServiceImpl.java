@@ -9,7 +9,6 @@ import com.ohashi.pixexample.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
@@ -33,7 +32,6 @@ public class AccountServiceImpl implements AccountService {
             for(int index = 0; listAccounts.size() > index; index++) {
                 listAccountsDto.add(new AccountDto(listAccounts.get(index)));
             }
-
          */
 
         try {
@@ -96,10 +94,5 @@ public class AccountServiceImpl implements AccountService {
         }
 
         this.accountRepository.deleteByCpf(cpf);
-    }
-
-    @Override
-    public UUID createRandomKey() {
-        return null;
     }
 }

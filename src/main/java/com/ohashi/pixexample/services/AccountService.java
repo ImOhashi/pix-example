@@ -13,5 +13,4 @@ public interface AccountService {
     Account createAccount(Account newAccount);
     Account updateAccount(String cpf, UpdateAccountForm name);
     void deleteAccount(String cpf);
-    UUID createRandomKey();
 }
