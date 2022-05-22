@@ -4,6 +4,9 @@ server:
 
 ### CONFIGURATION DATABASE ###
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
   data:
     mongodb:
       uri: mongodb://root:toor@localhost:27017/admin
@@ -12,4 +15,6 @@ spring:
 ### CONFIGURATION LOG ###
 logging:
   level:
-    root: DEBUG
+    root: INFO
+    com:
+      example: TRACE
