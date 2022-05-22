@@ -1,8 +1,8 @@
 package com.ohashi.pixexample.controllers;
 
 import com.ohashi.pixexample.entities.Account;
+import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.services.AccountService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +36,16 @@ public class AccountController {
         URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(createdAccount.getCpf()).toUri();
 
         return ResponseEntity.created(uri).body(createdAccount);
+    }
+
+    @PutMapping("/{cpf}")
+    public ResponseEntity<Account> updateAccount(@PathVariable String cpf, @Valid @RequestBody UpdateAccountForm updateAccountForm,
+                                                 UriComponentsBuilder uriComponentsBuilder) {
+        var updatedAccount = this.accountService.updateAccount(cpf, updateAccountForm);
+
+        URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(updatedAccount.getCpf()).toUri();
+
+        return ResponseEntity.created(uri).body(updatedAccount);
     }
 
     @DeleteMapping("/{cpf}")

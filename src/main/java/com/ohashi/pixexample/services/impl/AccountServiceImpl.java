@@ -1,6 +1,7 @@
 package com.ohashi.pixexample.services.impl;
 
 import com.ohashi.pixexample.entities.Account;
+import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.enums.TypeKey;
 import com.ohashi.pixexample.repositories.AccountRepository;
 import com.ohashi.pixexample.services.AccountService;
@@ -58,8 +59,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account updateAccount() {
-        return null;
+    public Account updateAccount(String cpf, UpdateAccountForm updateAccountForm) {
+        var account = this.accountRepository.getByCpf(cpf);
+
+        if (account == null) {
+            throw new IllegalArgumentException("Não existem contas correspondentes ao CPF informado.");
+        }
+
+        account.setName(updateAccountForm.getName());
+
+        return this.accountRepository.save(account);
     }
 
     @Override
