@@ -64,6 +64,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccount(String cpf) {
+        var account = this.accountRepository.getByCpf(cpf);
+
+        if (account == null) {
+            throw new IllegalArgumentException("Não existem contas correspondentes ao CPF informado.");
+        }
+
         this.accountRepository.deleteByCpf(cpf);
     }
 
