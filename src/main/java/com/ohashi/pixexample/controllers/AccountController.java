@@ -1,6 +1,7 @@
 package com.ohashi.pixexample.controllers;
 
 import com.ohashi.pixexample.entities.Account;
+import com.ohashi.pixexample.entities.dtos.AccountDto;
 import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("account")
@@ -25,27 +27,27 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Account>> listAccounts() {
+    public ResponseEntity<Stream<AccountDto>> listAccounts() throws Exception {
         return ResponseEntity.ok(this.accountService.listAccounts());
     }
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@Valid @RequestBody Account newAccount, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<AccountDto> createAccount(@Valid @RequestBody Account newAccount, UriComponentsBuilder uriComponentsBuilder) {
         Account createdAccount = this.accountService.createAccount(newAccount);
 
         URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(createdAccount.getCpf()).toUri();
 
-        return ResponseEntity.created(uri).body(createdAccount);
+        return ResponseEntity.created(uri).body(new AccountDto(createdAccount));
     }
 
     @PutMapping("/{cpf}")
-    public ResponseEntity<Account> updateAccount(@PathVariable String cpf, @Valid @RequestBody UpdateAccountForm updateAccountForm,
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable String cpf, @Valid @RequestBody UpdateAccountForm updateAccountForm,
                                                  UriComponentsBuilder uriComponentsBuilder) {
         var updatedAccount = this.accountService.updateAccount(cpf, updateAccountForm);
 
         URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(updatedAccount.getCpf()).toUri();
 
-        return ResponseEntity.created(uri).body(updatedAccount);
+        return ResponseEntity.created(uri).body(new AccountDto(updatedAccount));
     }
 
     @DeleteMapping("/{cpf}")

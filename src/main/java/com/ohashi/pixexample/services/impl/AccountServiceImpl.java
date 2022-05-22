@@ -1,6 +1,7 @@
 package com.ohashi.pixexample.services.impl;
 
 import com.ohashi.pixexample.entities.Account;
+import com.ohashi.pixexample.entities.dtos.AccountDto;
 import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.enums.TypeKey;
 import com.ohashi.pixexample.repositories.AccountRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -23,9 +25,24 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> listAccounts() {
-        return this.accountRepository.findAll();
-    }
+    public Stream<AccountDto> listAccounts() throws Exception {
+        var listAccounts = this.accountRepository.findAll();
+
+        /*
+            List<AccountDto> listAccountsDto = null;
+
+            for(int index = 0; listAccounts.size() > index; index++) {
+                listAccountsDto.add(new AccountDto(listAccounts.get(index)));
+            }
+
+         */
+
+        try {
+            return listAccounts.stream().map(AccountDto::new);
+        } catch (Exception err) {
+            throw new Exception("Não existem contas cadastradas.");
+        }
+     }
 
     @Override
     public Account createAccount(Account newAccount) {
