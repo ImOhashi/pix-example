@@ -63,8 +63,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void deleteAccount() {
-
+    public void deleteAccount(String cpf) {
+        this.accountRepository.deleteByCpf(cpf);
     }
 
     @Override

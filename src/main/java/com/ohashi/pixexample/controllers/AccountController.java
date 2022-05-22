@@ -4,6 +4,7 @@ import com.ohashi.pixexample.entities.Account;
 import com.ohashi.pixexample.services.AccountService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -35,5 +36,11 @@ public class AccountController {
         URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(createdAccount.getCpf()).toUri();
 
         return ResponseEntity.created(uri).body(createdAccount);
+    }
+
+    @DeleteMapping("/{cpf}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByCpf(@PathVariable String cpf) {
+        this.accountService.deleteAccount(cpf);
     }
 }

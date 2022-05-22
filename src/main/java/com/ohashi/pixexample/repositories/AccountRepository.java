@@ -10,4 +10,5 @@ import java.util.UUID;
 public interface AccountRepository extends MongoRepository<Account, UUID> {
     // Método customizado para retornar uma conta pelo CPF - Método criado via JPA
     Account getByCpf(String cpf);
+    void deleteByCpf(String cpf);
 }

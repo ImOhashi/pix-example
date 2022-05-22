@@ -10,6 +10,6 @@ public interface AccountService {
     List<Account> listAccounts();
     Account createAccount(Account newAccount);
     Account updateAccount();
-    void deleteAccount();
+    void deleteAccount(String cpf);
     UUID createRandomKey();
 }
