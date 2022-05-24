@@ -36,6 +36,12 @@ public class KeysServiceImpl implements KeysService {
             if(!isValid) {
                 throw  new IllegalArgumentException("E-mail informado inválido!");
             }
+        } else if(newKey.getType() == TypeKey.TELEFONE) {
+            var isValid = newKey.getValue().matches("[\\d]{7}\\-[\\d]{4}");
+
+            if(!isValid) {
+                throw  new IllegalArgumentException("Número de telefone informado inválido!");
+            }
         }
 
         this.accountRepository.save(account);
