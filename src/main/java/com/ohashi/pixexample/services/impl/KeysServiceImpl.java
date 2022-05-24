@@ -30,6 +30,12 @@ public class KeysServiceImpl implements KeysService {
             if (!ValidatePixCpfKey.validateCpfValue(account, newKey.getValue())) {
                 throw new IllegalArgumentException("CPF informado inválido!");
             }
+        } else if(newKey.getType() == TypeKey.EMAIL) {
+            var isValid = newKey.getValue().matches("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$");
+
+            if(!isValid) {
+                throw  new IllegalArgumentException("E-mail informado inválido!");
+            }
         }
 
         this.accountRepository.save(account);
