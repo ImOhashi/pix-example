@@ -38,4 +38,13 @@ public class KeysController {
     public void deleteKey(@PathVariable String cpf, @RequestBody @Valid PixKeyForm pixKey) throws Exception {
         this.keysService.deletePixKey(cpf, new PixKey(pixKey));
     }
+
+    @PutMapping("/random/{cpf}")
+    public ResponseEntity<PixKey> inputRandomKey(@PathVariable String cpf, UriComponentsBuilder uriComponentsBuilder) {
+        var createdRandomKey = this.keysService.inputRandomKey(cpf);
+
+        URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(createdRandomKey).toUri();
+
+        return ResponseEntity.created(uri).body(createdRandomKey);
+    }
 }

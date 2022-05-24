@@ -20,10 +20,6 @@ public class KeysServiceImpl implements KeysService {
         this.accountRepository = accountRepository;
     }
 
-    private UUID createRandomKey() {
-        return UUID.randomUUID();
-    }
-
     @Override
     public PixKey inputKey(String cpf, PixKey newKey) {
         var account = this.accountRepository.getByCpf(cpf);
@@ -52,5 +48,18 @@ public class KeysServiceImpl implements KeysService {
         }
 
         this.accountRepository.save(account);
+    }
+
+    @Override
+    public PixKey inputRandomKey(String cpf) {
+        var account = this.accountRepository.getByCpf(cpf);
+
+        var newRandomKey = new PixKey(TypeKey.RANDOM_KEY, UUID.randomUUID().toString());
+
+        account.getListKeys().add(newRandomKey);
+
+        this.accountRepository.save(account);
+
+        return newRandomKey;
     }
 }
