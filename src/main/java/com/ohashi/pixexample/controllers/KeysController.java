@@ -35,7 +35,7 @@ public class KeysController {
 
     @DeleteMapping("/{cpf}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteKey(@PathVariable String cpf, @RequestBody @Valid PixKeyForm pixKey) {
+    public void deleteKey(@PathVariable String cpf, @RequestBody @Valid PixKeyForm pixKey) throws Exception {
         this.keysService.deletePixKey(cpf, new PixKey(pixKey));
     }
 }

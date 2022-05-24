@@ -6,6 +6,7 @@ import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.enums.TypeKey;
 import com.ohashi.pixexample.repositories.AccountRepository;
 import com.ohashi.pixexample.services.AccountService;
+import com.ohashi.pixexample.utils.ValidatePixCpfKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,24 +50,8 @@ public class AccountServiceImpl implements AccountService {
             throw new IllegalArgumentException("Conta já cadastrada!");
         }
 
-        if (!newAccount.getListKeys().isEmpty()) {
-            newAccount.getListKeys().forEach(key -> {
-                if (key.getType() == TypeKey.CPF) {
-                    if (!key.getValue().equals(newAccount.getCpf())) {
-                        throw new IllegalArgumentException("CPF informado inválido!");
-                    }
-                }
-            });
-
-            /*
-                for(int index = 0; newAccount.getListKeys().size() > index; index++) {
-                    if (newAccount.getListKeys().get(index).getType() == TypeKey.CPF) {
-                        if (!newAccount.getListKeys().get(index).getValue().equals(newAccount.getCpf())) {
-                            throw new IllegalArgumentException("CPF informado inválido!");
-                        }
-                    }
-                }
-            */
+        if(!ValidatePixCpfKey.validateCpfValue(newAccount)) {
+            throw new IllegalArgumentException("CPF informado inválido!");
         }
 
         return this.accountRepository.save(newAccount);
