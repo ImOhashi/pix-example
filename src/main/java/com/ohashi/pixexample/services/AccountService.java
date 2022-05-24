@@ -4,7 +4,6 @@ import com.ohashi.pixexample.entities.Account;
 import com.ohashi.pixexample.entities.dtos.AccountDto;
 import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
 public interface AccountService {
