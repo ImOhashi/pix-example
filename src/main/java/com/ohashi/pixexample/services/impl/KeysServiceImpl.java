@@ -1,5 +1,6 @@
 package com.ohashi.pixexample.services.impl;
 
+import com.ohashi.pixexample.entities.Account;
 import com.ohashi.pixexample.entities.PixKey;
 import com.ohashi.pixexample.enums.TypeKey;
 import com.ohashi.pixexample.repositories.AccountRepository;
@@ -26,22 +27,8 @@ public class KeysServiceImpl implements KeysService {
 
         account.getListKeys().add(newKey);
 
-        if(newKey.getType() == TypeKey.CPF) {
-            if (!ValidatePixCpfKey.validateCpfValue(account, newKey.getValue())) {
-                throw new IllegalArgumentException("CPF informado inválido!");
-            }
-        } else if(newKey.getType() == TypeKey.EMAIL) {
-            var isValid = newKey.getValue().matches("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$");
-
-            if(!isValid) {
-                throw  new IllegalArgumentException("E-mail informado inválido!");
-            }
-        } else if(newKey.getType() == TypeKey.TELEFONE) {
-            var isValid = newKey.getValue().matches("[\\d]{7}\\-[\\d]{4}");
-
-            if(!isValid) {
-                throw  new IllegalArgumentException("Número de telefone informado inválido!");
-            }
+        if(!validateKeys(account, newKey)) {
+            throw  new IllegalArgumentException("Valor de chave informado, está inválido!");
         }
 
         this.accountRepository.save(account);
@@ -73,5 +60,27 @@ public class KeysServiceImpl implements KeysService {
         this.accountRepository.save(account);
 
         return newRandomKey;
+    }
+
+    private static boolean validateKeys(Account account, PixKey newKey) {
+        if(newKey.getType() == TypeKey.CPF) {
+            if (!ValidatePixCpfKey.validateCpfValue(account, newKey.getValue())) {
+                return false;
+            }
+        } else if(newKey.getType() == TypeKey.EMAIL) {
+            var isValid = newKey.getValue().matches("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$");
+
+            if(!isValid) {
+                return false;
+            }
+        } else if(newKey.getType() == TypeKey.TELEFONE) {
+            var isValid = newKey.getValue().matches("[\\d]{7}\\-[\\d]{4}");
+
+            if(!isValid) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
