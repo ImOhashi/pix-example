@@ -32,4 +32,13 @@ public class KeysServiceImpl implements KeysService {
 
         return newKey;
     }
+
+    @Override
+    public void deletePixKey(String cpf, PixKey pixKey) {
+        var account = this.accountRepository.getByCpf(cpf);
+
+        account.getListKeys().remove(pixKey);
+
+        this.accountRepository.save(account);
+    }
 }

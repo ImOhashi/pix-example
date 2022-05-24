@@ -4,6 +4,7 @@ import com.ohashi.pixexample.entities.PixKey;
 import com.ohashi.pixexample.entities.forms.PixKeyForm;
 import com.ohashi.pixexample.services.KeysService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,5 +31,11 @@ public class KeysController {
         URI uri = uriComponentsBuilder.path("/account/").buildAndExpand(newKey).toUri();
 
         return ResponseEntity.created(uri).body(updatedKey);
+    }
+
+    @DeleteMapping("/{cpf}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteKey(@PathVariable String cpf, @RequestBody @Valid PixKeyForm pixKey) {
+        this.keysService.deletePixKey(cpf, new PixKey(pixKey));
     }
 }
