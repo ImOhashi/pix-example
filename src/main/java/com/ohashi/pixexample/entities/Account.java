@@ -34,4 +34,6 @@ public class Account implements Serializable {
 
     @NotNull
     private List<PixKey> listKeys;
+
+    private Double money;
 }

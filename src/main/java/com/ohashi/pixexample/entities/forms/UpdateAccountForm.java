@@ -13,4 +13,5 @@ public class UpdateAccountForm {
     @NotNull
     private String name;
 
+    private Double money;
 }

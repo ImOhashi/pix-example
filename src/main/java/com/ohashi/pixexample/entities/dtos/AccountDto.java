@@ -15,6 +15,7 @@ public class AccountDto {
         this.cpf = account.getCpf();
         this.name = account.getName();
         this.listKeys = account.getListKeys();
+        this.money = account.getMoney();
     }
 
     private String cpf;
@@ -22,4 +23,6 @@ public class AccountDto {
     private String name;
 
     private List<PixKey> listKeys;
+
+    private Double money;
 }
