@@ -5,7 +5,6 @@ import com.ohashi.pixexample.entities.dtos.AccountDto;
 import com.ohashi.pixexample.factories.dtos.AccountDtoFactory;
 import com.ohashi.pixexample.factories.AccountFactory;
 import com.ohashi.pixexample.repositories.AccountRepository;
-import com.ohashi.pixexample.utils.ValidatePixCpfKey;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
