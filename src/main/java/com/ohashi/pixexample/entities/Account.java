@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Document("Account")
 public class Account implements Serializable {
 

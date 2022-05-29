@@ -3,7 +3,6 @@ package com.ohashi.pixexample.services.impl;
 import com.ohashi.pixexample.entities.Account;
 import com.ohashi.pixexample.entities.dtos.AccountDto;
 import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
-import com.ohashi.pixexample.enums.TypeKey;
 import com.ohashi.pixexample.repositories.AccountRepository;
 import com.ohashi.pixexample.services.AccountService;
 import com.ohashi.pixexample.utils.ValidatePixCpfKey;
