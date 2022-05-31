@@ -2,8 +2,10 @@ package com.ohashi.pixexample.services;
 
 import com.ohashi.pixexample.entities.Account;
 import com.ohashi.pixexample.entities.dtos.AccountDto;
+import com.ohashi.pixexample.entities.forms.UpdateAccountForm;
 import com.ohashi.pixexample.factories.dtos.AccountDtoFactory;
 import com.ohashi.pixexample.factories.AccountFactory;
+import com.ohashi.pixexample.factories.forms.UpdateAccountFormFactory;
 import com.ohashi.pixexample.repositories.AccountRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -82,5 +84,21 @@ public class AccountServiceTest {
         doReturn(null).when(accountRepository).getByCpf(mockCreateAccount.getCpf());
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.createAccount(mockCreateAccount));
+    }
+
+    @Test
+    @DisplayName("Test updateAccount - success")
+    void testUpdateAccountSuccess() {
+        Account mockCreateAccount = AccountFactory.sampleWithId();
+        Account mockUpdatedAccount = AccountFactory.sampleWithIdUpdated();
+
+        UpdateAccountForm mockUpdateForm = UpdateAccountFormFactory.sample();
+
+        doReturn(mockCreateAccount).when(accountRepository).getByCpf(mockCreateAccount.getCpf());
+        doReturn(mockUpdatedAccount).when(accountRepository).save(mockUpdatedAccount);
+
+        var updatedAccount = accountService.updateAccount(mockCreateAccount.getCpf(), mockUpdateForm);
+
+        Assertions.assertEquals(updatedAccount.toString(), mockUpdatedAccount.toString());
     }
 }
