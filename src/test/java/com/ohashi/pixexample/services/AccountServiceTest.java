@@ -15,10 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.mockito.Mockito.doReturn;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -100,5 +101,41 @@ public class AccountServiceTest {
         var updatedAccount = accountService.updateAccount(mockCreateAccount.getCpf(), mockUpdateForm);
 
         Assertions.assertEquals(updatedAccount.toString(), mockUpdatedAccount.toString());
+    }
+
+    @Test
+    @DisplayName("Test updateAccount - exception > Não existem contas correspondentes ao CPF informado.")
+    void testUpdateAccountException() {
+        Account mockCreateAccount = AccountFactory.sampleWithoutId();
+        UpdateAccountForm mockUpdateForm = UpdateAccountFormFactory.sample();
+
+        doReturn(null).when(accountRepository).getByCpf(mockCreateAccount.getCpf());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            accountService.updateAccount(mockCreateAccount.getCpf(), mockUpdateForm);
+        });
+    }
+
+    @Test
+    @DisplayName("Test deleteAccount - exception > Nenhuma conta encontrada!")
+    void testDeleteAccountException() {
+        Account mockCreateAccount = AccountFactory.sampleWithoutId();
+
+        doReturn(null).when(accountRepository).getByCpf(mockCreateAccount.getCpf());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> accountService.deleteAccount(mockCreateAccount.getCpf()));
+    }
+
+    @Test
+    @DisplayName("Test deleteAccount - success")
+    void testDeleteAccountSucess(){
+        Account mockCreateAccount = AccountFactory.sampleWithoutId();
+
+        when(accountRepository.getByCpf(anyString())).thenReturn(mockCreateAccount);
+        doNothing().when(accountRepository).deleteByCpf(anyString());
+
+        accountService.deleteAccount(mockCreateAccount.toString());
+
+        verify(accountRepository, times(1)).deleteByCpf(anyString());
     }
 }
